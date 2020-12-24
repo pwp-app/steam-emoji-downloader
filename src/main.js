@@ -16,3 +16,8 @@ ElComponents.forEach((component) => {
 ElPlugins.forEach((plugin) => {
   app.use(plugin);
 });
+
+// gif.js
+if (window.GIF) {
+  app.config.globalProperties.GIF = window.GIF;
+}
