@@ -1,14 +1,20 @@
 import { createApp } from 'vue';
-import { ElButton, ElInput, ElMessage } from 'element-plus';
+import {
+  ElButton,
+  ElInput,
+  ElMessage,
+  ElRadioButton,
+  ElRadioGroup,
+} from 'element-plus';
 
 import App from './App.vue';
 import './styles/element-variable.scss';
 import './styles/main.scss';
 
-const app = createApp(App).mount('#app');
+const app = createApp(App);
 
 // element plus
-const ElComponents = [ElButton, ElInput];
+const ElComponents = [ElButton, ElInput, ElRadioButton, ElRadioGroup];
 const ElPlugins = [ElMessage];
 ElComponents.forEach((component) => {
   app.component(component.name, component);
@@ -21,3 +27,5 @@ ElPlugins.forEach((plugin) => {
 if (window.GIF) {
   app.config.globalProperties.GIF = window.GIF;
 }
+
+app.mount('#app');
