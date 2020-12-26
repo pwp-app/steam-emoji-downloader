@@ -43,3 +43,13 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .extractor {
+    min-height: 320px;
+    transform: translateY(-2.5%);
+    &-footer {
+      margin-top: 36px;
+    }
+  }
+}
