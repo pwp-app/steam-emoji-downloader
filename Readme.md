@@ -2,6 +2,26 @@
 
 This is a website that can download emoji or sticker from Steam directly.
 
+## Scripts
+
+Start a dev server:
+
+```bash
+npm run serve
+```
+
+Build:
+
+```bash
+npm run build
+```
+
+Lint:
+
+```bash
+npm run lint
+```
+
 ## Tech point
 
 ### Convert APNG to GIF at client side
@@ -12,13 +32,13 @@ Here's the steps about how we did that:
 
 2: Use `apng-js` to parse a apng data.
 
-3: Use `gif-js` to make a gif by frames of apng.
+3: Use `gif.js` to make a gif by frames of apng.
 
 ## Related Projects
 
 [apng-js](https://github.com/davidmz/apng-js)
-[gif-js](https://github.com/jnordberg/gif.js)
-[gif-js (modified by us)]()
+[gif.js](https://github.com/jnordberg/gif.js)
+[gif.js (modified by us)](https://github.com/backrunner/gif.js)
 
 ## Tips
 
