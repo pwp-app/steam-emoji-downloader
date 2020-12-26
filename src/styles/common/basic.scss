@@ -1,1 +1,33 @@
-$color-primary: #2e2e2e;
+html, body, #app {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  transition: 100ms;
+}
+
+a:visited {
+  color: $color-text-footer;
+}
+
+a:hover {
+  color: $color-text-label;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  max-width: 720px;
+  padding: 0 64px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

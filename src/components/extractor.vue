@@ -59,6 +59,12 @@
         </el-button>
       </div>
     </div>
+    <div class="extractor-footer">
+      <span
+        >Made by pwp.app<span class="extractor-footer-split">|</span
+        ><a href="" target="_blank">GitHub</a></span
+      >
+    </div>
   </div>
 </template>
 
