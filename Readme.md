@@ -22,7 +22,7 @@ Here's the steps about how we did that:
 
 ## Tips
 
-If you want to build or deploy your own `Steam Emoji Extractor`, PLEASE MODIFY THE `CORS_HOST` CONSTANT IN `src/constrants/urls.js`.
+If you want to build or deploy your own `Steam Emoji Extractor`, PLEASE MODIFY THE `CORS_HOST` CONSTANT IN `src/constants/urls.js`.
 
 Here's a eazy tool to build a cors proxy by using Cloudflare Worker:
 
