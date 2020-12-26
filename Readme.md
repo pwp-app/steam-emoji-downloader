@@ -37,7 +37,9 @@ Here's the steps about how we did that:
 ## Related Projects
 
 [apng-js](https://github.com/davidmz/apng-js)
+
 [gif.js](https://github.com/jnordberg/gif.js)
+
 [gif.js (modified by us)](https://github.com/backrunner/gif.js)
 
 ## Tips
