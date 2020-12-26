@@ -53,7 +53,7 @@
         <el-button
           type="primary"
           @click="handleGetClicked"
-          :loading="emojiLoading"
+          :loading="emojiLoading || emojiConverting"
         >
           {{ buttonText }}
         </el-button>
@@ -71,16 +71,16 @@
 <script>
 import parseAPNG from 'apng-js';
 import { buffer2blob, downloadFromBlob } from '../utils/utils';
+import { CORS_HOST, EMOJI_BASE, STICKER_BASE } from '../constrants/urls';
 
-const CORS_HOST = 'https://cors.pwp.workers.dev';
-const EMOJI_BASE = 'https://community.cloudflare.steamstatic.com/economy/emoticonlarge';
-const STICKER_BASE = 'https://community.cloudflare.steamstatic.com/economy/sticker';
+const nameTestPattern = /^:(.+):$/;
 
 export default {
   data() {
     return {
       emojiType: '表情图标',
       emojiLoading: false,
+      emojiConverting: false,
       fileType: 'APNG',
       bgType: '白色',
       fileName: '',
@@ -96,13 +96,21 @@ export default {
     showBgType() {
       return this.showFileType && this.fileType === 'GIF';
     },
+    encodedFileName() {
+      return encodeURIComponent(this.fileName);
+    },
     fileUrl() {
       return this.emojiType === '表情图标'
-        ? `${CORS_HOST}/${EMOJI_BASE}/${this.fileName}`
-        : `${CORS_HOST}/${STICKER_BASE}/${this.fileName}`;
+        ? `${CORS_HOST}/${EMOJI_BASE}/${this.encodedFileName}`
+        : `${CORS_HOST}/${STICKER_BASE}/${this.encodedFileName}`;
     },
     buttonText() {
-      return this.emojiLoading ? '获取中' : '获取';
+      if (this.emojiLoading) {
+        return '获取中';
+      } if (this.emojiConverting) {
+        return '正在生成 GIF';
+      }
+      return '获取';
     },
     outputBgColor() {
       return this.bgType === '白色' ? '#fff' : 'rgba(0, 0, 0, 0)';
@@ -110,6 +118,17 @@ export default {
   },
   methods: {
     async handleGetClicked() {
+      this.fileName = this.fileName.trim();
+      if (!this.fileName) {
+        this.$message.error(`请输入${this.fileNameLabel}`);
+        return;
+      }
+      if (nameTestPattern.test(this.fileName)) {
+        const matched = nameTestPattern.exec(this.fileName);
+        // eslint-disable-next-line prefer-destructuring
+        this.fileName = matched[1];
+      }
+      this.emojiLoading = true;
       try {
         const res = await this.axios.head(this.fileUrl);
         if (res.status !== 200) {
@@ -128,10 +147,12 @@ export default {
         });
         if (fileRes.status !== 200) {
           this.$message.error('获取失败');
+          this.emojiLoading = false;
           return;
         }
       } catch (err) {
         console.error('Download emoji error: ', err);
+        this.emojiLoading = false;
         this.$message.error('获取失败');
         return;
       }
@@ -143,8 +164,8 @@ export default {
         // download
         const blob = buffer2blob(imgData, 'image/png');
         downloadFromBlob(blob, `${this.fileName}.png`);
+        this.emojiLoading = false;
         this.$message.success('获取成功');
-        this.fileName = '';
       } else if (this.emojiType === '动态贴纸' && this.fileType === 'GIF') {
         // convert apng to gif
         const apng = parseAPNG(imgData);
@@ -159,26 +180,35 @@ export default {
         });
         let loaded = 0;
         gif.on('finished', (blob) => {
+          this.emojiConverting = false;
           downloadFromBlob(blob, `${this.fileName}.gif`);
         });
-        apng.frames.forEach((frame) => {
-          const { imageData } = frame;
-          const img = new Image();
-          img.onload = () => {
-            loaded += 1;
-            gif.addFrame(img, {
-              delay: frame.delay,
-              copy: true,
-              biasTop: frame.top,
-              biasLeft: frame.left,
-              transparent: this.bgType === '透明',
-            });
-            if (loaded === apng.frames.length) {
-              gif.render();
-            }
-          };
-          img.src = URL.createObjectURL(imageData);
-        });
+        try {
+          apng.frames.forEach((frame) => {
+            const { imageData } = frame;
+            const img = new Image();
+            img.onload = () => {
+              loaded += 1;
+              gif.addFrame(img, {
+                delay: frame.delay,
+                copy: true,
+                biasTop: frame.top,
+                biasLeft: frame.left,
+                transparent: this.bgType === '透明',
+              });
+              if (loaded === apng.frames.length) {
+                this.emojiLoading = false;
+                this.emojiConverting = true;
+                gif.render();
+              }
+            };
+            img.src = URL.createObjectURL(imageData);
+          });
+        } catch (err) {
+          console.error('Convert error: ', err);
+          this.emojiConverting = false;
+          this.$message.error('转换失败');
+        }
       }
     },
   },
