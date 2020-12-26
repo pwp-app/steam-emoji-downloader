@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import axios from 'axios';
 import {
   ElButton,
   ElInput,
@@ -22,6 +23,9 @@ ElComponents.forEach((component) => {
 ElPlugins.forEach((plugin) => {
   app.use(plugin);
 });
+
+// axios
+app.config.globalProperties.axios = axios;
 
 // gif.js
 if (window.GIF) {
