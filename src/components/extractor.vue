@@ -62,7 +62,7 @@
     <div class="extractor-footer">
       <span
         >Made by pwp.app<span class="extractor-footer-split">|</span
-        ><a href="" target="_blank">GitHub</a></span
+        ><a href="https://github.com/pwp-app/steam-emoji-extractor" target="_blank">GitHub</a></span
       >
     </div>
   </div>
