@@ -71,7 +71,7 @@
 <script>
 import parseAPNG from 'apng-js';
 import { buffer2blob, downloadFromBlob } from '../utils/utils';
-import { CORS_HOST, EMOJI_BASE, STICKER_BASE } from '../constrants/urls';
+import { CORS_HOST, EMOJI_BASE, STICKER_BASE } from '../constants/urls';
 
 const nameTestPattern = /^:(.+):$/;
 
