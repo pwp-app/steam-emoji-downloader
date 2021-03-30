@@ -142,11 +142,13 @@ export default {
         const res = await this.axios.head(this.fileUrl);
         if (res.status !== 200) {
           this.$message.error('获取失败');
+          this.emojiLoading = false;
           return;
         }
       } catch (err) {
         console.error('Fetch emoji error: ', err);
         this.$message.error('获取失败');
+        this.emojiLoading = false;
         return;
       }
       let fileRes;
