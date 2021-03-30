@@ -47,7 +47,11 @@
         <div class="extractor-body-input__label">
           <span>{{ fileNameLabel }}</span>
         </div>
-        <el-input class="extractor-body-input__control" v-model="fileName" />
+        <el-input
+          class="extractor-body-input__control"
+          v-model="fileName"
+          @keyup.enter="handleGetClicked"
+          />
       </div>
       <div class="extractor-body-button">
         <el-button
@@ -60,10 +64,11 @@
       </div>
     </div>
     <div class="extractor-footer">
-      <span
-        >Made by pwp.app<span class="extractor-footer-split">|</span
-        ><a href="https://github.com/pwp-app/steam-emoji-extractor" target="_blank">GitHub</a></span
-      >
+      <span>
+        Made by BackRunner
+        <span class="extractor-footer-split">|</span>
+        <a href="https://github.com/pwp-app/steam-emoji-extractor" target="_blank">GitHub</a>
+      </span>
     </div>
   </div>
 </template>
@@ -185,6 +190,10 @@ export default {
         });
         try {
           apng.frames.forEach((frame) => {
+            // skip blank frame
+            if (frame.width === 1 && frame.height === 1) {
+              return;
+            }
             const { imageData } = frame;
             const img = new Image();
             img.onload = () => {
