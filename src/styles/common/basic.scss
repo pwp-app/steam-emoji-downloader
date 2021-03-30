@@ -8,6 +8,7 @@ html, body, #app {
 }
 
 a {
+  color: $color-text-footer;
   text-decoration: none;
   transition: 100ms;
 }
