@@ -192,6 +192,7 @@ export default {
           apng.frames.forEach((frame) => {
             // skip blank frame
             if (frame.width === 1 && frame.height === 1) {
+              loaded += 1;
               return;
             }
             const { imageData } = frame;
