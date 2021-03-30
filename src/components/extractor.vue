@@ -196,11 +196,6 @@ export default {
         });
         try {
           apng.frames.forEach((frame) => {
-            // skip blank frame
-            if (frame.width === 1 && frame.height === 1) {
-              loaded += 1;
-              return;
-            }
             const { imageData } = frame;
             const img = new Image();
             img.onload = () => {
@@ -208,8 +203,12 @@ export default {
               gif.addFrame(img, {
                 delay: frame.delay,
                 copy: true,
-                biasTop: frame.top,
-                biasLeft: frame.left,
+                width: frame.width,
+                height: frame.height,
+                top: frame.top,
+                left: frame.left,
+                disposeOp: frame.disposeOp,
+                blendOp: frame.blendOp,
                 transparent: this.bgType === '透明',
               });
               if (loaded === apng.frames.length) {
@@ -222,6 +221,7 @@ export default {
           });
         } catch (err) {
           console.error('Convert error: ', err);
+          this.emojiLoading = false;
           this.emojiConverting = false;
           this.$message.error('转换失败');
         }
