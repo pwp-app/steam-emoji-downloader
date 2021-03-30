@@ -22,7 +22,7 @@ Lint:
 npm run lint
 ```
 
-## Tech point
+## Tech points
 
 ### Convert APNG to GIF at client side
 
@@ -30,9 +30,9 @@ Here's the steps about how we did that:
 
 1: Get apng file data from ajax request (returns an arraybuffer).
 
-2: Use `apng-js` to parse a apng data.
+2: Using `apng-js` to parse a apng data.
 
-3: Use `gif.js` to make a gif by frames of apng.
+3: Using `gif.js` to make a gif by the frames of apng.
 
 ## Related Projects
 
@@ -46,7 +46,7 @@ Here's the steps about how we did that:
 
 If you want to build or deploy your own `Steam Emoji Extractor`, PLEASE MODIFY THE `CORS_HOST` CONSTANT IN `src/constants/urls.js`.
 
-Here's a eazy tool to build a cors proxy by using Cloudflare Worker:
+Here's a eazy tool to build your own cors proxy by Cloudflare Worker:
 
 [worker-cors](https://github.com/backrunner/worker-cors)
 
