@@ -197,12 +197,13 @@ export default {
         try {
           apng.frames.forEach((frame) => {
             const { imageData } = frame;
+            console.log(frame);
             const img = new Image();
             img.onload = () => {
               loaded += 1;
               gif.addFrame(img, {
                 delay: frame.delay,
-                copy: true,
+                apng: true,
                 width: frame.width,
                 height: frame.height,
                 top: frame.top,
