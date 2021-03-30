@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "npm run serve",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "npm run gen:ver && vue-cli-service serve",
+    "build": "npm run gen:ver && vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "gen:ver": "node ./scripts/genVersion.js"
   },
   "dependencies": {
     "apng-js": "^1.1.1",

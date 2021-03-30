@@ -68,6 +68,8 @@
         Made by BackRunner
         <span class="extractor-footer-split">|</span>
         <a href="https://github.com/pwp-app/steam-emoji-extractor" target="_blank">GitHub</a>
+        <span class="extractor-footer-split">|</span>
+        v{{ version }}
       </span>
     </div>
   </div>
@@ -75,6 +77,7 @@
 
 <script>
 import parseAPNG from 'apng-js';
+import version from '../version';
 import { buffer2blob, downloadFromBlob } from '../utils/utils';
 import { CORS_HOST, EMOJI_BASE, STICKER_BASE } from '../constants/urls';
 
@@ -89,6 +92,7 @@ export default {
       fileType: 'APNG',
       bgType: '白色',
       fileName: '',
+      version,
     };
   },
   computed: {
