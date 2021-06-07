@@ -51,7 +51,7 @@
           class="extractor-body-input__control"
           v-model="fileName"
           @keyup.enter="handleGetClicked"
-          />
+        />
       </div>
       <div class="extractor-body-button">
         <el-button
@@ -67,7 +67,11 @@
       <span>
         Made by BackRunner
         <span class="extractor-footer-split">|</span>
-        <a href="https://github.com/pwp-app/steam-emoji-extractor" target="_blank">GitHub</a>
+        <a
+          href="https://github.com/pwp-app/steam-emoji-extractor"
+          target="_blank"
+          >GitHub</a
+        >
         <span class="extractor-footer-split">|</span>
         v{{ version }}
       </span>
@@ -116,7 +120,8 @@ export default {
     buttonText() {
       if (this.emojiLoading) {
         return '获取中';
-      } if (this.emojiConverting) {
+      }
+      if (this.emojiConverting) {
         return '正在生成 GIF';
       }
       return '获取';
@@ -189,19 +194,17 @@ export default {
           background: this.outputBgColor,
           transparent: this.bgType === '透明' ? 0x00000000 : null,
         });
-        let loaded = 0;
         gif.on('finished', (blob) => {
           this.emojiConverting = false;
           downloadFromBlob(blob, `${this.fileName}.gif`);
         });
         try {
-          apng.frames.forEach((frame) => {
-            const { imageData } = frame;
-            console.log(frame);
-            const img = new Image();
-            img.onload = () => {
-              loaded += 1;
-              gif.addFrame(img, {
+          const images = [];
+          const addFrames = () => {
+            images.sort((a, b) => a.index - b.index);
+            images.forEach((item, index) => {
+              const frame = apng.frames[index];
+              gif.addFrame(item.img, {
                 delay: frame.delay,
                 apng: true,
                 width: frame.width,
@@ -212,10 +215,18 @@ export default {
                 blendOp: frame.blendOp,
                 transparent: this.bgType === '透明',
               });
-              if (loaded === apng.frames.length) {
-                this.emojiLoading = false;
-                this.emojiConverting = true;
-                gif.render();
+            });
+            this.emojiLoading = false;
+            this.emojiConverting = true;
+            gif.render();
+          };
+          apng.frames.forEach((frame, index) => {
+            const { imageData } = frame;
+            const img = new Image();
+            img.onload = () => {
+              images.push({ img, index });
+              if (images.length === apng.frames.length) {
+                addFrames();
               }
             };
             img.src = URL.createObjectURL(imageData);
