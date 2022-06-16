@@ -9,34 +9,34 @@
           <span>表情类型</span>
         </div>
         <el-radio-group
-          class="extractor-body-selector__control"
           v-model="emojiType"
+          class="extractor-body-selector__control"
           size="medium"
         >
           <el-radio-button label="表情图标"></el-radio-button>
           <el-radio-button label="动态贴纸"></el-radio-button>
         </el-radio-group>
       </div>
-      <div class="extractor-body-selector" v-if="showFileType">
+      <div v-if="showFileType" class="extractor-body-selector">
         <div class="extractor-body-selector__label">
           <span>文件类型</span>
         </div>
         <el-radio-group
-          class="extractor-body-selector__control"
           v-model="fileType"
+          class="extractor-body-selector__control"
           size="medium"
         >
           <el-radio-button label="APNG"></el-radio-button>
           <el-radio-button label="GIF"></el-radio-button>
         </el-radio-group>
       </div>
-      <div class="extractor-body-selector" v-if="showBgType">
+      <div v-if="showBgType" class="extractor-body-selector">
         <div class="extractor-body-selector__label">
           <span>背景</span>
         </div>
         <el-radio-group
-          class="extractor-body-selector__control"
           v-model="bgType"
+          class="extractor-body-selector__control"
           size="medium"
         >
           <el-radio-button label="白色"></el-radio-button>
@@ -48,16 +48,16 @@
           <span>{{ fileNameLabel }}</span>
         </div>
         <el-input
-          class="extractor-body-input__control"
           v-model="fileName"
+          class="extractor-body-input__control"
           @keyup.enter="handleGetClicked"
         />
       </div>
       <div class="extractor-body-button">
         <el-button
           type="primary"
-          @click="handleGetClicked"
           :loading="emojiLoading || emojiConverting"
+          @click="handleGetClicked"
         >
           {{ buttonText }}
         </el-button>
@@ -114,8 +114,8 @@ export default {
     },
     fileUrl() {
       return this.emojiType === '表情图标'
-        ? `${CORS_HOST}/${EMOJI_BASE}/${this.encodedFileName}`
-        : `${CORS_HOST}/${STICKER_BASE}/${this.encodedFileName}`;
+        ? `${CORS_HOST.replace(/\/$/, '')}/${EMOJI_BASE.replace(/\/$/, '')}/${this.encodedFileName}`
+        : `${CORS_HOST.replace(/\/$/, '')}/${STICKER_BASE.replace(/\/$/, '')}/${this.encodedFileName}`;
     },
     buttonText() {
       if (this.emojiLoading) {

@@ -1,7 +1,9 @@
-/* 改变主题色变量 */
-$--color-primary: #2e2e2e;
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #2e2e2e,
+    ),
+  ),
+);
 
-/* 改变 icon 字体路径变量，必需 */
-$--font-path: '~element-plus/lib/theme-chalk/fonts';
-
-@import "~element-plus/packages/theme-chalk/src/index";
+@use "element-plus/theme-chalk/src/index.scss" as *;
