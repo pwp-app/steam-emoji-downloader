@@ -4,4 +4,4 @@ dist/
 **/*.min.js
 **/*-min.js
 **/*.bundle.js
-
+public/js/*.js

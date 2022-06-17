@@ -11,7 +11,7 @@
         <el-radio-group
           v-model="emojiType"
           class="extractor-body-selector__control"
-          size="medium"
+          size="default"
         >
           <el-radio-button label="表情图标"></el-radio-button>
           <el-radio-button label="动态贴纸"></el-radio-button>
@@ -24,7 +24,7 @@
         <el-radio-group
           v-model="fileType"
           class="extractor-body-selector__control"
-          size="medium"
+          size="default"
         >
           <el-radio-button label="APNG"></el-radio-button>
           <el-radio-button label="GIF"></el-radio-button>
@@ -37,7 +37,7 @@
         <el-radio-group
           v-model="bgType"
           class="extractor-body-selector__control"
-          size="medium"
+          size="default"
         >
           <el-radio-button label="白色"></el-radio-button>
           <el-radio-button label="透明"></el-radio-button>
