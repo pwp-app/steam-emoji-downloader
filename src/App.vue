@@ -1,16 +1,16 @@
 <template>
   <div class="container">
-    <Extractor />
+    <Downloader />
   </div>
 </template>
 
 <script>
 import { lazyloadGoogleFonts } from 'lazyload-gfonts';
-import Extractor from './components/extractor.vue';
+import Downloader from './components/downloader.vue';
 
 export default {
   components: {
-    Extractor,
+    Downloader,
   },
   beforeCreate() {
     lazyloadGoogleFonts({

@@ -1,6 +1,8 @@
-# Steam Emoji Extractor
+# Steam Emoji Downloader
 
-This is a website that can download emoji or sticker from Steam directly.
+This is a useful tool that can download emoji or sticker from Steam by name.
+
+[Here's the link](https://steamemoji.pwp.app)
 
 ## Scripts
 

@@ -1,7 +1,7 @@
 <template>
   <div class="extractor">
     <div class="extractor-title">
-      <span>Steam Emoji Extractor</span>
+      <span>Steam Emoji Downloader</span>
     </div>
     <div class="extractor-body">
       <div class="extractor-body-selector">
@@ -13,8 +13,8 @@
           class="extractor-body-selector__control"
           size="default"
         >
-          <el-radio-button label="表情图标"></el-radio-button>
-          <el-radio-button label="动态贴纸"></el-radio-button>
+          <el-radio-button label="emoji">表情图标</el-radio-button>
+          <el-radio-button label="sticker">动态贴纸</el-radio-button>
         </el-radio-group>
       </div>
       <div v-if="showFileType" class="extractor-body-selector">
@@ -26,8 +26,8 @@
           class="extractor-body-selector__control"
           size="default"
         >
-          <el-radio-button label="APNG"></el-radio-button>
-          <el-radio-button label="GIF"></el-radio-button>
+          <el-radio-button label="apng">APNG</el-radio-button>
+          <el-radio-button label="gif">GIF</el-radio-button>
         </el-radio-group>
       </div>
       <div v-if="showBgType" class="extractor-body-selector">
@@ -39,8 +39,8 @@
           class="extractor-body-selector__control"
           size="default"
         >
-          <el-radio-button label="白色"></el-radio-button>
-          <el-radio-button label="透明"></el-radio-button>
+          <el-radio-button label="white">白色</el-radio-button>
+          <el-radio-button label="transparent">透明</el-radio-button>
         </el-radio-group>
       </div>
       <div class="extractor-body-input">
@@ -101,19 +101,19 @@ export default {
   },
   computed: {
     fileNameLabel() {
-      return this.emojiType === '表情图标' ? '表情名称' : '贴纸名称';
+      return this.emojiType === 'emoji' ? '表情名称' : '贴纸名称';
     },
     showFileType() {
-      return this.emojiType === '动态贴纸';
+      return this.emojiType === 'sticker';
     },
     showBgType() {
-      return this.showFileType && this.fileType === 'GIF';
+      return this.showFileType && this.fileType === 'gif';
     },
     encodedFileName() {
       return encodeURIComponent(this.fileName);
     },
     fileUrl() {
-      return this.emojiType === '表情图标'
+      return this.emojiType === 'emoji'
         ? `${CORS_HOST.replace(/\/$/, '')}/${EMOJI_BASE.replace(/\/$/, '')}/${this.encodedFileName}`
         : `${CORS_HOST.replace(/\/$/, '')}/${STICKER_BASE.replace(/\/$/, '')}/${this.encodedFileName}`;
     },
@@ -127,7 +127,7 @@ export default {
       return '获取';
     },
     outputBgColor() {
-      return this.bgType === '白色' ? '#fff' : 'rgba(0, 0, 0, 0)';
+      return this.bgType === 'white' ? '#fff' : 'rgba(0, 0, 0, 0)';
     },
   },
   methods: {
@@ -174,15 +174,15 @@ export default {
       }
       const { data: imgData } = fileRes;
       if (
-        this.emojiType === '表情图标'
-        || (this.emojiType === '动态贴纸' && this.fileType === 'APNG')
+        this.emojiType === 'emoji'
+        || (this.emojiType === 'sticker' && this.fileType === 'apng')
       ) {
         // download
         const blob = buffer2blob(imgData, 'image/png');
         downloadFromBlob(blob, `${this.fileName}.png`);
         this.emojiLoading = false;
         this.$message.success('获取成功');
-      } else if (this.emojiType === '动态贴纸' && this.fileType === 'GIF') {
+      } else if (this.emojiType === 'sticker' && this.fileType === 'gif') {
         // convert apng to gif
         const apng = parseAPNG(imgData);
         const gif = new this.GIF({
@@ -192,7 +192,7 @@ export default {
           width: apng.width,
           height: apng.height,
           background: this.outputBgColor,
-          transparent: this.bgType === '透明' ? 0x00000000 : null,
+          transparent: this.bgType === 'transparent' ? 0x00000000 : null,
         });
         gif.on('finished', (blob) => {
           this.emojiConverting = false;
@@ -213,7 +213,7 @@ export default {
                 left: frame.left,
                 disposeOp: frame.disposeOp,
                 blendOp: frame.blendOp,
-                transparent: this.bgType === '透明',
+                transparent: this.bgType === 'transparent',
               });
             });
             this.emojiLoading = false;
