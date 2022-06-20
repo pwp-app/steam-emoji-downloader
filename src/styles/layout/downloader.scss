@@ -1,6 +1,6 @@
 .downloader {
   width: 100%;
-  min-height: 460px;
+  min-height: 408px;
   transform: translateY(-12.5%);
   user-select: none;
   &-title {
@@ -50,12 +50,18 @@
   }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .downloader {
     min-height: 320px;
     transform: translateY(-2.5%);
     &-footer {
       margin-top: 64px;
     }
+  }
+}
+
+@media screen and (max-height: 768px) {
+  .downloader {
+    transform: translateY(0);
   }
 }

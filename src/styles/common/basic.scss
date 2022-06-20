@@ -35,7 +35,7 @@ a:hover {
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
     max-width: none;
     padding: 18px 24px;

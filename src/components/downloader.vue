@@ -6,41 +6,33 @@
     <div class="downloader-body">
       <div class="downloader-body-selector">
         <div class="downloader-body-selector__label">
-          <span>表情类型</span>
+          <span>{{ $t('emojiType') }}</span>
         </div>
         <el-radio-group
           v-model="emojiType"
           class="downloader-body-selector__control"
           size="default"
         >
-          <el-radio-button label="emoji">表情图标</el-radio-button>
-          <el-radio-button label="sticker">动态贴纸</el-radio-button>
+          <el-radio-button label="emoji">{{ $t('emoji') }}</el-radio-button>
+          <el-radio-button label="sticker">{{ $t('sticker') }}</el-radio-button>
         </el-radio-group>
       </div>
       <div v-if="showFileType" class="downloader-body-selector">
         <div class="downloader-body-selector__label">
-          <span>文件类型</span>
+          <span>{{ $t('fileType') }}</span>
         </div>
-        <el-radio-group
-          v-model="fileType"
-          class="downloader-body-selector__control"
-          size="default"
-        >
+        <el-radio-group v-model="fileType" class="downloader-body-selector__control" size="default">
           <el-radio-button label="apng">APNG</el-radio-button>
           <el-radio-button label="gif">GIF</el-radio-button>
         </el-radio-group>
       </div>
       <div v-if="showBgType" class="downloader-body-selector">
         <div class="downloader-body-selector__label">
-          <span>背景</span>
+          <span>{{ $t('background') }}</span>
         </div>
-        <el-radio-group
-          v-model="bgType"
-          class="downloader-body-selector__control"
-          size="default"
-        >
-          <el-radio-button label="white">白色</el-radio-button>
-          <el-radio-button label="transparent">透明</el-radio-button>
+        <el-radio-group v-model="bgType" class="downloader-body-selector__control" size="default">
+          <el-radio-button label="white">{{ $t('white') }}</el-radio-button>
+          <el-radio-button label="transparent">{{ $t('transparent') }}</el-radio-button>
         </el-radio-group>
       </div>
       <div class="downloader-body-input">
@@ -50,6 +42,7 @@
         <el-input
           v-model="fileName"
           class="downloader-body-input__control"
+          :placeholder="pleaseInputText"
           @keyup.enter="handleGetClicked"
         />
       </div>
@@ -67,11 +60,7 @@
       <span>
         Made by BackRunner
         <span class="downloader-footer-split">|</span>
-        <a
-          href="https://github.com/pwp-app/steam-emoji-downloader"
-          target="_blank"
-          >GitHub</a
-        >
+        <a href="https://github.com/pwp-app/steam-emoji-downloader" target="_blank">GitHub</a>
         <span class="downloader-footer-split">|</span>
         v{{ version }}
       </span>
@@ -90,18 +79,21 @@ const nameTestPattern = /^:(.+):$/;
 export default {
   data() {
     return {
-      emojiType: '表情图标',
+      emojiType: 'emoji',
       emojiLoading: false,
       emojiConverting: false,
-      fileType: 'APNG',
-      bgType: '白色',
+      fileType: 'apng',
+      bgType: 'white',
       fileName: '',
       version,
     };
   },
   computed: {
     fileNameLabel() {
-      return this.emojiType === 'emoji' ? '表情名称' : '贴纸名称';
+      return this.emojiType === 'emoji' ? this.$t('emoji') : this.$t('sticker');
+    },
+    pleaseInputText() {
+      return `${this.$t('pleaseInput')}${this.$t('name').replace('<label>', this.fileNameLabel).toLowerCase()}`;
     },
     showFileType() {
       return this.emojiType === 'sticker';
@@ -115,16 +107,18 @@ export default {
     fileUrl() {
       return this.emojiType === 'emoji'
         ? `${CORS_HOST.replace(/\/$/, '')}/${EMOJI_BASE.replace(/\/$/, '')}/${this.encodedFileName}`
-        : `${CORS_HOST.replace(/\/$/, '')}/${STICKER_BASE.replace(/\/$/, '')}/${this.encodedFileName}`;
+        : `${CORS_HOST.replace(/\/$/, '')}/${STICKER_BASE.replace(/\/$/, '')}/${
+            this.encodedFileName
+          }`;
     },
     buttonText() {
       if (this.emojiLoading) {
-        return '获取中';
+        return this.$t('fetching');
       }
       if (this.emojiConverting) {
-        return '正在生成 GIF';
+        return this.$t('generating');
       }
-      return '获取';
+      return this.$t('fetch');
     },
     outputBgColor() {
       return this.bgType === 'white' ? '#fff' : 'rgba(0, 0, 0, 0)';
@@ -134,7 +128,7 @@ export default {
     async handleGetClicked() {
       this.fileName = this.fileName.trim();
       if (!this.fileName) {
-        this.$message.error(`请输入${this.fileNameLabel}`);
+        this.$message.error(this.pleaseInputText);
         return;
       }
       if (nameTestPattern.test(this.fileName)) {
@@ -146,13 +140,13 @@ export default {
       try {
         const res = await this.axios.head(this.fileUrl);
         if (res.status !== 200) {
-          this.$message.error('获取失败');
+          this.$message.error(this.$t('fetchFailed'));
           this.emojiLoading = false;
           return;
         }
       } catch (err) {
         console.error('Fetch emoji error: ', err);
-        this.$message.error('获取失败');
+        this.$message.error(this.$t('fetchFailed'));
         this.emojiLoading = false;
         return;
       }
@@ -162,26 +156,26 @@ export default {
           responseType: 'arraybuffer',
         });
         if (fileRes.status !== 200) {
-          this.$message.error('获取失败');
+          this.$message.error(this.$t('fetchFailed'));
           this.emojiLoading = false;
           return;
         }
       } catch (err) {
         console.error('Download emoji error: ', err);
         this.emojiLoading = false;
-        this.$message.error('获取失败');
+        this.$message.error(this.$t('fetchFailed'));
         return;
       }
       const { data: imgData } = fileRes;
       if (
-        this.emojiType === 'emoji'
-        || (this.emojiType === 'sticker' && this.fileType === 'apng')
+        this.emojiType === 'emoji' ||
+        (this.emojiType === 'sticker' && this.fileType === 'apng')
       ) {
         // download
         const blob = buffer2blob(imgData, 'image/png');
         downloadFromBlob(blob, `${this.fileName}.png`);
         this.emojiLoading = false;
-        this.$message.success('获取成功');
+        this.$message.success(this.$t('fetchSuccess'));
       } else if (this.emojiType === 'sticker' && this.fileType === 'gif') {
         // convert apng to gif
         const apng = parseAPNG(imgData);
@@ -235,7 +229,7 @@ export default {
           console.error('Convert error: ', err);
           this.emojiLoading = false;
           this.emojiConverting = false;
-          this.$message.error('转换失败');
+          this.$message.error(this.$t('generateFailed'));
         }
       }
     },
