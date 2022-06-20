@@ -9,7 +9,7 @@
     "lint-fix": "eslint ./src --ext .vue,.js --fix",
     "gen:ver": "node ./scripts/genVersion.js"
   },
-  "homepage": "https://github.com/pwp-app/steam-emoji-extractor",
+  "homepage": "https://github.com/pwp-app/steam-emoji-downloader",
   "author": "BackRunner",
   "license": "MIT",
   "dependencies": {

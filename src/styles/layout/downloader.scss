@@ -1,4 +1,4 @@
-.extractor {
+.downloader {
   width: 100%;
   min-height: 460px;
   transform: translateY(-12.5%);
@@ -51,7 +51,7 @@
 }
 
 @media (max-width: 768px) {
-  .extractor {
+  .downloader {
     min-height: 320px;
     transform: translateY(-2.5%);
     &-footer {

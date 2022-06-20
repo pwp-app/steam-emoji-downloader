@@ -1,59 +1,59 @@
 <template>
-  <div class="extractor">
-    <div class="extractor-title">
+  <div class="downloader">
+    <div class="downloader-title">
       <span>Steam Emoji Downloader</span>
     </div>
-    <div class="extractor-body">
-      <div class="extractor-body-selector">
-        <div class="extractor-body-selector__label">
+    <div class="downloader-body">
+      <div class="downloader-body-selector">
+        <div class="downloader-body-selector__label">
           <span>表情类型</span>
         </div>
         <el-radio-group
           v-model="emojiType"
-          class="extractor-body-selector__control"
+          class="downloader-body-selector__control"
           size="default"
         >
           <el-radio-button label="emoji">表情图标</el-radio-button>
           <el-radio-button label="sticker">动态贴纸</el-radio-button>
         </el-radio-group>
       </div>
-      <div v-if="showFileType" class="extractor-body-selector">
-        <div class="extractor-body-selector__label">
+      <div v-if="showFileType" class="downloader-body-selector">
+        <div class="downloader-body-selector__label">
           <span>文件类型</span>
         </div>
         <el-radio-group
           v-model="fileType"
-          class="extractor-body-selector__control"
+          class="downloader-body-selector__control"
           size="default"
         >
           <el-radio-button label="apng">APNG</el-radio-button>
           <el-radio-button label="gif">GIF</el-radio-button>
         </el-radio-group>
       </div>
-      <div v-if="showBgType" class="extractor-body-selector">
-        <div class="extractor-body-selector__label">
+      <div v-if="showBgType" class="downloader-body-selector">
+        <div class="downloader-body-selector__label">
           <span>背景</span>
         </div>
         <el-radio-group
           v-model="bgType"
-          class="extractor-body-selector__control"
+          class="downloader-body-selector__control"
           size="default"
         >
           <el-radio-button label="white">白色</el-radio-button>
           <el-radio-button label="transparent">透明</el-radio-button>
         </el-radio-group>
       </div>
-      <div class="extractor-body-input">
-        <div class="extractor-body-input__label">
+      <div class="downloader-body-input">
+        <div class="downloader-body-input__label">
           <span>{{ fileNameLabel }}</span>
         </div>
         <el-input
           v-model="fileName"
-          class="extractor-body-input__control"
+          class="downloader-body-input__control"
           @keyup.enter="handleGetClicked"
         />
       </div>
-      <div class="extractor-body-button">
+      <div class="downloader-body-button">
         <el-button
           type="primary"
           :loading="emojiLoading || emojiConverting"
@@ -63,16 +63,16 @@
         </el-button>
       </div>
     </div>
-    <div class="extractor-footer">
+    <div class="downloader-footer">
       <span>
         Made by BackRunner
-        <span class="extractor-footer-split">|</span>
+        <span class="downloader-footer-split">|</span>
         <a
-          href="https://github.com/pwp-app/steam-emoji-extractor"
+          href="https://github.com/pwp-app/steam-emoji-downloader"
           target="_blank"
           >GitHub</a
         >
-        <span class="extractor-footer-split">|</span>
+        <span class="downloader-footer-split">|</span>
         v{{ version }}
       </span>
     </div>
