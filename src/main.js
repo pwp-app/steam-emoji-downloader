@@ -7,6 +7,10 @@ import {
   ElMessage,
   ElRadioButton,
   ElRadioGroup,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElIcon,
 } from 'element-plus';
 import i18nMessages from './constants/i18n'
 import App from './App.vue';
@@ -16,7 +20,7 @@ import './styles/main.scss';
 const app = createApp(App);
 
 // element plus
-const ElComponents = [ElButton, ElInput, ElRadioButton, ElRadioGroup];
+const ElComponents = [ElButton, ElInput, ElRadioButton, ElRadioGroup, ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon];
 const ElPlugins = [ElMessage];
 ElComponents.forEach((component) => {
   app.component(component.name, component);
@@ -30,7 +34,6 @@ app.config.globalProperties.axios = axios;
 
 // i18n
 const lang = navigator.language.split('-')[0];
-console.log(i18nMessages);
 const i18n = createI18n({
   locale: lang,
   fallbackLocale: 'en',
